@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="907375b5-c26b-48b4-b378-63c50e7f601a" >
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="c4704d5a-f0f1-4e54-95c3-d12e37538b25" >
+		<http:request-connection host="localhost" port="8081" connectionIdleTimeout="300000"/>
+	</http:request-config>
+	<vm:config name="VM_Config" doc:name="VM Config" doc:id="6748fe61-9985-4533-8dc5-e1c4e4c94172" >
+		<vm:queues >
+			<vm:queue queueName="goodbye" />
+		</vm:queues>
+	</vm:config>
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="cbf0bbca-2d8a-49bc-a4a6-3719c6b084f7" >
+		<salesforce:basic-connection username="${sfdc.username}" password="${sfdc.password}" securityToken="${sfdc.token}" />
+	</salesforce:sfdc-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="548079f3-be30-4f9a-b03a-b8d2966067b0" file="config.yaml" />
+	<file:config name="File_Config" doc:name="File Config" doc:id="9af6ba4b-9b91-48bc-802e-672e0618387c" >
+		<file:connection workingDir="${file.accountsDirectory}" />
+	</file:config>
+	<jms:config name="JMS_Config" doc:name="JMS Config" doc:id="d0ec2f98-b736-497c-87e2-8c91d88fc41d" >
+		<jms:active-mq-connection specification="JMS_1_0_2b" >
+			<jms:factory-configuration />
+		</jms:active-mq-connection>
+	</jms:config>
+
+</mule>
